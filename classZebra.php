@@ -1,39 +1,45 @@
 <?php
-
+#BEFORE EDIT THE LABEL CODE, PLEASE CHECK THE REFERENCE MANUAL https://www.zebra.com/content/dam/zebra/manuals/en-us/printer/epl2-pm-en.pdf
+#IF IT'S COMPLICATED TO UNDERSTAND HOW THE EPL LANGUAGE WORKS, DOWNLOAD THE ZEBRADESIGNER, CREATE A LABEL AND EXPORT THE READY CODE.
 class ZebraPrinter {
 	
 	public $host;	
 	public $storeLabel = array();
 	private $label;
-	private $prnFile = "label_gen.prn";
-	public $darkness = 7;
+	private $prnFile = "label_gen".rand().".prn";
+	public $darkness;
+	public $speed;
 	
 	public function setHost($h){
 		$this->host = $h;
 	}
 	
+	function __construct($hostPrinter, $speedPrinter, $darknessPrint){
+		$this->host = $hostPrinter;
+		$this->speed = $speedPrinter;
+		$this->darkness = $darknessPrint;
+		$this->initLabel();
+	}
+	
 	public function initLabel(){
-		$initLabel =  "I8,A,001\n\n";
-		$initLabel .= "Q240,024\n";
-		$initLabel .= "q831\n";
-		$initLabel .= "rN\n";
-		$initLabel .= "S4\n";
-		$initLabel .= "ZT\n";
-		$initLabel .= "JF\n";
-		$initLabel .= "OD\n";
-		$initLabel .= "R175,0\n";			
-		$initLabel .= "f100\n";			
-		$initLabel .= "N\n";
+		$initLabel =  "I8,A,001\n\n"; #CHARSET -> CHECK THE MANUAL REFERENCE
+		$initLabel .= "Q240,024\n"; #SET THE HEIGHT SIZE OF LABEL, AND THE HEIGHT SIZE OF THE GAP LABEL
+		$initLabel .= "q831\n"; #printable width area
+		$initLabel .= "rN\n"; 
+		$initLabel .= "S".$this->speed."\n"; #SET THE PRINTING SPEED
+		$initLabel .= "D".$this->darkness."\n"; #SET DARKNESS PRINTING
+		$initLabel .= "ZT\n"; #START PRINT ON TOP OR THE BOTTOM OF THE LABEL
+		$initLabel .= "JF\n"; 
+		$initLabel .= "OD\n"; #HARDWARE OPTION, CHECK THE DOCUMENTATION
+		$initLabel .= "R175,0\n"; #POINT OF REFERENCE		
+		$initLabel .= "f100\n";	#CUT POSITION
+		$initLabel .= "N\n"; # CLEAR PREVIOUS IMAGE BUFFER FROM PRINTER.
 		
 		array_push($this->storeLabel, $initLabel);
 	}
 	
-	public function setDarkness($d){
-		$setDarkLabel = "D".$d."\n";
-		array_push($this->storeLabel,$setDarkLabel); 
-	}
-	
-	public function setLabel($l,$x,$y,$f){		
+		
+	public function writeLabel($l,$x,$y,$f){		
 		$label =   sprintf("A%s,%s,2,%s,1,1,N,'%s'\n",
 							$x,$y,$f,$l); 
 		$label = str_replace("'", '"', $label);
@@ -51,14 +57,14 @@ class ZebraPrinter {
 	}
 	
 		
-	public function generatePrn(){
+	private function generatePrn(){
 		$this->generateLabel();
 		$prn = fopen($this->prnFile, "w");
 		fwrite($prn,$this->label);
 		fclose($prn);
 	}
 	
-	public function finishLabel($numCopies){
+	public function setLabelCopies($numCopies){
 		$label = "P$numCopies\n";
 		array_push($this->storeLabel, $label);
 		
@@ -68,13 +74,12 @@ class ZebraPrinter {
 	     $this->label = join("",$this->storeLabel);		 
 	}
 	
-		
-
-	
 	public function print2zebra(){
+		$this->generatePrn();
 		$host = str_replace("\\","\\\\",$this->host);
 		echo $host;
 		shell_exec("copy ".$this->prnFile." /B ".$host."");
+		unlink($this->prnFile);
 	}
 }
 
