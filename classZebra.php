@@ -9,21 +9,25 @@ class ZebraPrinter {
 	private $prnFile = "label_gen".rand().".prn";
 	public $darkness;
 	public $speed;
+	public configSizeLabel;
 	
 	public function setHost($h){
 		$this->host = $h;
 	}
 	
-	function __construct($hostPrinter, $speedPrinter, $darknessPrint){
+	function __construct($hostPrinter, $speedPrinter, $darknessPrint, configSizeLabel=array()){
 		$this->host = $hostPrinter;
 		$this->speed = $speedPrinter;
 		$this->darkness = $darknessPrint;
+		$this->configSizeLabel = configSizeLabel;
 		$this->initLabel();
 	}
 	
 	public function initLabel(){
+		$hl = $this->configSizeLabel;
 		$initLabel =  "I8,A,001\n\n"; #CHARSET -> CHECK THE MANUAL REFERENCE
-		$initLabel .= "Q240,024\n"; #SET THE HEIGHT SIZE OF LABEL, AND THE HEIGHT SIZE OF THE GAP LABEL
+		//$initLabel .= "Q240,024\n"; #SET THE HEIGHT SIZE OF LABEL, AND THE HEIGHT SIZE OF THE GAP LABEL
+		$initLabel .= "Q$hl[0],$hl[1]\n";
 		$initLabel .= "q831\n"; #printable width area
 		$initLabel .= "rN\n"; 
 		$initLabel .= "S".$this->speed."\n"; #SET THE PRINTING SPEED
