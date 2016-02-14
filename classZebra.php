@@ -9,7 +9,7 @@ class ZebraPrinter {
 	private $prnFile = "label_gen".rand().".prn";
 	public $darkness;
 	public $speed;
-	public configSizeLabel;
+	public $configSizeLabel;
 	
 	public function setHost($h){
 		$this->host = $h;
@@ -19,7 +19,7 @@ class ZebraPrinter {
 		$this->host = $hostPrinter;
 		$this->speed = $speedPrinter;
 		$this->darkness = $darknessPrint;
-		$this->configSizeLabel = configSizeLabel;
+		$this->configSizeLabel = $configSizeLabel;
 		$this->initLabel();
 	}
 	
