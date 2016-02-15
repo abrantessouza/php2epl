@@ -34,5 +34,5 @@ $z->print2zebra();
 ```
 
 ### Observations 
-This code hasn't been tested in linux enviroment yet.
-PLEASE CHECK THE REFERENCE MANUAL on the link [https://www.zebra.com/content/dam/zebra/manuals/en-us/printer/epl2-pm-en.pdf]
+ - This code hasn't been tested in linux enviroment yet.
+ - PLEASE CHECK THE REFERENCE MANUAL on the link [https://www.zebra.com/content/dam/zebra/manuals/en-us/printer/epl2-pm-en.pdf]
