@@ -7,7 +7,7 @@ $speedPrinter = 4;
 $darknessPrint = 2;
 $labelSize = array(240,024);
 
-$z = new ZebraPrinter($hostPrinter, $speedPrinter, $darknessPrint,$labelSize);
+$z = new ZebraPrinter($hostPrinter, $speedPrinter, $darknessPrint, $labelSize);
 
 $z->setBarcode(1, 344, 80, "ContentBarCode"); #1 -> cod128
 $z->writeLabel("TestLabel",344,30,4);

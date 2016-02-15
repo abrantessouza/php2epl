@@ -11,10 +11,6 @@ class ZebraPrinter {
 	public $speed;
 	public $configSizeLabel;
 	
-	public function setHost($h){
-		$this->host = $h;
-		
-	}
 	
 	function __construct($hostPrinter, $speedPrinter, $darknessPrint, $configSizeLabel){
 		$this->host = $hostPrinter;
@@ -39,14 +35,13 @@ class ZebraPrinter {
 		$initLabel .= "OD\n"; #HARDWARE OPTION, CHECK THE DOCUMENTATION
 		$initLabel .= "R175,0\n"; #POINT OF REFERENCE		
 		$initLabel .= "f100\n";	#CUT POSITION
-		$initLabel .= "N\n"; # CLEAR PREVIOUS IMAGE BUFFER FROM PRINTER.
-		
+		$initLabel .= "N\n"; # CLEAR PREVIOUS IMAGE BUFFER FROM PRINTER.		
 		array_push($this->storeLabel, $initLabel);
 	}
 	
 		
 	public function writeLabel($l,$x,$y,$f){		
-		$label =   sprintf("A%s,%s,2,%s,1,1,N,'%s'\n",
+		$label = sprintf("A%s,%s,2,%s,1,1,N,'%s'\n",
 							$x,$y,$f,$l); 
 		$label = str_replace("'", '"', $label);
 		array_push( $this->storeLabel, $label);
@@ -54,11 +49,10 @@ class ZebraPrinter {
 	
 	
 	
-	public function setBarcode($code, $x, $y, $conteudo){
-		$barCode =   sprintf("B%s,%s,2,%s,2,6,45,N,'%s'\n",
-							$x,$y,$code,$conteudo); 
-		$barCode = str_replace("'", '"', $barCode);		
-		
+	public function setBarcode($code, $x, $y, $content){
+		$barCode =  sprintf("B%s,%s,2,%s,2,6,45,N,'%s'\n",
+							$x,$y,$code,$content); 
+		$barCode = str_replace("'", '"', $barCode);			
 		array_push($this->storeLabel, $barCode);
 	}
 	
@@ -72,8 +66,7 @@ class ZebraPrinter {
 	
 	public function setLabelCopies($numCopies){
 		$label = "P$numCopies\n";
-		array_push($this->storeLabel, $label);
-		
+		array_push($this->storeLabel, $label);		
 	}
 	
 	private function generateLabel(){
