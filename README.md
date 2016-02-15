@@ -40,7 +40,7 @@ This method generates the a temp *.prn with an EPL command and sends it to the r
 
 
 ### Observations 
-<<<<<<< HEAD
+
 
  - This code was tested in a Windows environment.
  - [PLEASE CHECK THE REFERENCE MANUAL][manual]
@@ -76,4 +76,4 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  - This code was tested in a Windows environment.
  - [PLEASE CHECK THE REFERENCE MANUAL][manual]
  [manual]:https://www.zebra.com/content/dam/zebra/manuals/en-us/printer/epl2-pm-en.pdf
->>>>>>> 83907055fa14206bcb32fddaf5a84519ea81db36
+
