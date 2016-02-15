@@ -6,20 +6,22 @@ class ZebraPrinter {
 	public $host;	
 	public $storeLabel = array();
 	private $label;
-	private $prnFile = "label_gen".rand().".prn";
+	private $prnFile;
 	public $darkness;
 	public $speed;
 	public $configSizeLabel;
 	
 	public function setHost($h){
 		$this->host = $h;
+		
 	}
 	
-	function __construct($hostPrinter, $speedPrinter, $darknessPrint, configSizeLabel=array()){
+	function __construct($hostPrinter, $speedPrinter, $darknessPrint, $configSizeLabel){
 		$this->host = $hostPrinter;
 		$this->speed = $speedPrinter;
 		$this->darkness = $darknessPrint;
 		$this->configSizeLabel = $configSizeLabel;
+		$this->prnFile = "label_gen".rand().".prn";
 		$this->initLabel();
 	}
 	
@@ -81,7 +83,6 @@ class ZebraPrinter {
 	public function print2zebra(){
 		$this->generatePrn();
 		$host = str_replace("\\","\\\\",$this->host);
-		echo $host;
 		shell_exec("copy ".$this->prnFile." /B ".$host."");
 		unlink($this->prnFile);
 	}
