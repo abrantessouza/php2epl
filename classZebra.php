@@ -41,8 +41,7 @@ class ZebraPrinter {
 	
 		
 	public function writeLabel($l,$x,$y,$f){		
-		$label = sprintf("A%s,%s,2,%s,1,1,N,'%s'\n",
-							$x,$y,$f,$l); 
+		$label = sprintf("A%s,%s,2,%s,1,1,N,'%s'\n", $x,$y,$f,$l); 
 		$label = str_replace("'", '"', $label);
 		array_push( $this->storeLabel, $label);
 	}
@@ -50,8 +49,7 @@ class ZebraPrinter {
 	
 	
 	public function setBarcode($code, $x, $y, $content){
-		$barCode =  sprintf("B%s,%s,2,%s,2,6,45,N,'%s'\n",
-							$x,$y,$code,$content); 
+		$barCode =  sprintf("B%s,%s,2,%s,2,6,45,N,'%s'\n", $x,$y,$code,$content); 
 		$barCode = str_replace("'", '"', $barCode);			
 		array_push($this->storeLabel, $barCode);
 	}
