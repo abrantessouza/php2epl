@@ -10,19 +10,22 @@ class ZebraPrinter {
 	public $darkness;
 	public $speed;
 	public $configSizeLabel;
+	public $referencePoint
 	
 	
-	function __construct($hostPrinter, $speedPrinter, $darknessPrint, $configSizeLabel){
+	function __construct($hostPrinter, $speedPrinter, $darknessPrint, $configSizeLabel, $referencePoint){
 		$this->host = $hostPrinter;
 		$this->speed = $speedPrinter;
 		$this->darkness = $darknessPrint;
 		$this->configSizeLabel = $configSizeLabel;
+		$this->referencePoint = $referencePoint;
 		$this->prnFile = "label_gen".rand().".prn";
 		$this->initLabel();
 	}
 	
 	public function initLabel(){
 		$hl = $this->configSizeLabel;
+		$ref = $this->referencePoint;
 		$initLabel =  "I8,A,001\n\n"; #CHARSET -> CHECK THE MANUAL REFERENCE
 		//$initLabel .= "Q240,024\n"; #SET THE HEIGHT SIZE OF LABEL, AND THE HEIGHT SIZE OF THE GAP LABEL
 		$initLabel .= "Q$hl[0],$hl[1]\n";
@@ -33,7 +36,7 @@ class ZebraPrinter {
 		$initLabel .= "ZT\n"; #START PRINT ON TOP OR THE BOTTOM OF THE LABEL
 		$initLabel .= "JF\n"; 
 		$initLabel .= "OD\n"; #HARDWARE OPTION, CHECK THE DOCUMENTATION
-		$initLabel .= "R175,0\n"; #POINT OF REFERENCE		
+		$initLabel .= "R$ref[0],$ref[1]\n"; #Use this command to move the reference point for the X and Y axes	
 		$initLabel .= "f100\n";	#CUT POSITION
 		$initLabel .= "N\n"; # CLEAR PREVIOUS IMAGE BUFFER FROM PRINTER.		
 		array_push($this->storeLabel, $initLabel);
@@ -74,7 +77,9 @@ class ZebraPrinter {
 	public function print2zebra(){
 		$this->generatePrn();
 		$host = str_replace("\\","\\\\",$this->host);
-		shell_exec("copy ".$this->prnFile." /B ".$host."");
+		#$host = $this->host;
+		echo $host;
+		#shell_exec("copy ".$this->prnFile." /B ".$host."");
 		unlink($this->prnFile);
 	}
 }

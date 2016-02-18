@@ -6,7 +6,7 @@ PHP2ELP is a short class that creates an EPL command and sends it to a remote sh
 
 ### 1) Creating the object
 Start by creating an ZebraPrinter object and setting the Host Printer,
-speed, darkness (or tempeture), and the label size. The label size is an array composed by the Label height followed by the gap
+speed, darkness (or tempeture), the label size and reference point. The label size is an array composed by the Label height followed by the gap
 width.
 
 ```sh
@@ -14,7 +14,8 @@ $hostPrinter = "\\computername\sharedprintername";
 $speedPrinter = 4;
 $darknessPrint = 2;
 $labelSize = array(240,024);
-$z = new ZebraPrinter($hostPrinter, $speedPrinter, $darknessPrint, $labelSize);
+$referencePoint = array(215,15);
+$z = new ZebraPrinter($hostPrinter, $speedPrinter, $darknessPrint, $labelSize,$referencePoint);
 ```
 
 ### 2) Calling the methods
