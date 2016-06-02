@@ -79,7 +79,7 @@ class ZebraPrinter {
 		$host = str_replace("\\","\\\\",$this->host);
 		#$host = $this->host;
 		echo $host;
-		#shell_exec("copy ".$this->prnFile." /B ".$host."");
+		shell_exec("copy ".$this->prnFile." /B ".$host."");
 		unlink($this->prnFile);
 	}
 }
